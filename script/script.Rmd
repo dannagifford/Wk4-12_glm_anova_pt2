@@ -1,30 +1,38 @@
 ---
-title: "Untitled"
-author: "Andrew Stewart"
-date: "14/07/2020"
-output: html_document
+title: "The General Linear Model - ANOVA Part 2"
+author: "Andrew Stewart, Email: drandrewjstewart@gmail.com, Twitter: @ajstewart_lang"
+date: ""
+output: 
+ html_document:
+  theme: flatly
+  toc: true
+  toc_float: true
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+# Overview
 
-## R Markdown
+In this workshop we will continue our examination of ANOVA. Specifically, we will focus on ANCOVA (Analysis of Covariance) before exploring how AN(C)OVA is a special case of regression and how both can be understood in the context of the General Linear Model.
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+&nbsp;&nbsp;
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+<center>
 
-```{r cars}
-summary(cars)
-```
+<iframe width="560" height="315" src="https://youtube.com/embed/vw-BoLFHw2s" frameborder="0" allowfullscreen></iframe>
 
-## Including Plots
+</center>
 
-You can also embed plots, for example:
+&nbsp;&nbsp;
 
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
+## Slides
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+If you have a Google account, you can also view and download the slides in a range of formats by clicking on the image below. If you don't have a Google account, you can download the slides in .pdf format by [clicking here](../slides/glm_anova_pt1_video1.pdf).
+
+&nbsp;&nbsp;
+
+<center>
+
+[![Link to slides](../images/glm_anova_pt1_video1.png){width=75%}](https://docs.google.com/presentation/d/1Jwcwlk5JOjYLMZQkulN3c5nS01BKtF-ldozRQVE-2G8/edit?usp=sharing)
+
+</center>
+
+&nbsp;&nbsp;
