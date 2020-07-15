@@ -38,6 +38,7 @@ If you have a Google account, you can also view and download the slides in a ran
 &nbsp;&nbsp;
 
 # Building our ANCOVA
+## Loading our Packages
 
 Let's run through the ANCOVA example that I cover in the video above. First we need to load the packages we need. We'll be using the `tidyverse` for general data wrangling and data visualisation, and then the `afex` package for building our ANCOVA model, and the `emmeans` package for running pairwise comparisons and displaying our adjusted means.  
 
@@ -46,3 +47,178 @@ library(tidyverse) # Load the tidyverse packages
 library(afex) # ANOVA functions
 library(emmeans) # Needed for pairwise comparisons
 ```
+
+## Reading in our Data
+
+Now we're going to read in our data.
+
+```{r, warning=FALSE, message=FALSE}
+my_data <- read_csv("https://raw.githubusercontent.com/ajstewartlang/12_glm_anova_pt2/master/data/ancova_data.csv")
+```
+
+```{r}
+head(my_data)
+```
+
+We see Condition isn't properly coded as a factor, so let's fix that.
+
+```{r}
+my_data <- my_data %>% 
+  mutate(Condition = factor(Condition))
+head(my_data)
+```
+
+## Summarising our Data
+
+Let's work our some summary statistics and build a data visualisation next.
+
+```{r, message=FALSE}
+my_data %>%
+  group_by(Condition) %>%
+  summarise(mean_ability = mean(Ability))
+```
+
+## Visualising our Data
+
+```{r}
+set.seed(1234)
+ggplot(my_data, aes(x = Gaming, y = Ability,  colour = Condition)) + 
+  geom_point(size = 3, alpha = .9) +
+  labs(x = "Gaming Frequency (hours per week)", 
+       y = "Motor Ability") +
+  theme_minimal() +
+  theme(text = element_text(size = 11)) 
+```
+
+We have built a visualisation where we have plotted the raw data points using the `geom_point()` function.
+
+## Building our ANOVA model
+
+Let's first build an ANOVA model, and ignore the presence of the covariate in our dataset.
+
+```{r}
+anova_model <-aov_4(Ability ~ Condition + (1 | Participant), data = my_data)
+anova(anova_model)
+```
+
+On the basis of this output, it appears we have an effect of Condition. To explore this further, we would use the `emmeans()` function to run the pairwise comparisons.
+
+```{r}
+emmeans(anova_model, pairwise ~ Condition)
+```
+
+On the basis of this, we might conclude that we have an effect of Condition, and that each of our three groups differs significantly from the others. But would this be right? No, because we haven't taken account of our covariate. 
+
+We will build our ANCOVA model, adding our covariate before our experimental Condition manipulation. We set the `factorize` parameter to be `FALSE` so that it is treated as a continuous predictor, rather than an experimental factor in our model.
+
+```{r}
+model_ancova <- aov_4(Ability ~ Gaming + Condition + (1 | Participant), data = my_data, factorize = FALSE)
+anova(model_ancova)
+```
+
+On this basis of this output, we see that we no longer have an effect of Condition, but we *do* have an effect of our covariate.
+
+We can use the `emmeans()` function to produce the adjusted means (i.e., the means for each of our three groups taking into account the influence of our covariate).
+
+```{r}
+emmeans(model_ancova, pairwise ~ Condition)
+```
+
+# AN(C)OVA as a Special Case of Regression
+
+We are now going to look at ANOVA (and then ANCOVA) as a special case of regression.
+
+## Visualising our Data
+
+Let's visualise the data with Condition on the x-axis.
+
+```{r}
+my_data %>%
+  ggplot(aes(x = Condition, y = Ability, colour = Condition)) +
+  geom_violin() +
+  geom_jitter(width = .05, alpha = .8) +
+  labs(x = "Condition", 
+       y = "Motor Ability") +
+  stat_summary(fun.data = mean_cl_boot, colour = "black") +
+  guides(colour = FALSE) +
+  theme_minimal() +
+  theme(text = element_text(size = 12)) 
+```
+
+Let's check how our Condition factor is currently coded in terms of its contrasts. Note, the expression `my_data$Condition` is the Base R way of referring to the variable called `Condition` in the dataset `my_data`.
+
+## Setting up our Constrasts
+
+```{r}
+contrasts(my_data$Condition)
+```
+
+We want our Water group to be the reference level (thus corresponding to the intercept of our linear model), and cdummy oded as (0, 0) but it's not currently coded as such. Let's fix that.
+
+```{r}
+my_data <- my_data %>%
+  mutate(Condition = fct_relevel(Condition, 
+                                 levels = c("Water", "Double Espresso", "Single Espresso")))
+
+contrasts(my_data$Condition)
+```
+
+## ANOVA as a Linear Model
+
+OK, this is now what we want. Let's model our linear model using the `lm()` function and examine the result.
+
+```{r}
+model_lm <- lm(Ability ~ Condition, data = my_data)
+model_lm
+```
+
+We can see that the Intercept corresponds to the mean of our Water Condition. To work out the mean Ability of our Double Espresso Group, we use the coding for the Double Espresso group (1, 0) with our equation: 
+
+Ability = Intercept + β1(Double Espresso) + β2(Single Espresso)
+
+Ability = 4.817 + 4.199(1) + 1.871(0)
+
+Ability = 4.817 + 4.199
+
+Ability = 9.016
+
+To work out the mean Ability of our Double Espresso Group, we use the coding for the Double Espresso group (0, 1) with our equation: 
+
+Ability = 4.817 + 4.199(0) + 1.871(1)
+
+Ability = 4.817 + 1.871
+
+Ability = 6.688
+
+## ANCOVA as a Linear Model
+
+OK, now to build our ANCOVA using the `lm()` function, we simply add the covariate (`Gaming`) to our model specification.
+
+```{r}
+model_ancova <- lm(Ability ~ Gaming + Condition, data = my_data)
+model_ancova
+```
+
+We can work out the mean of our reference group (Water) by plugging in the values to our equation - note that Gaming is not a factor and we need to enter the mean of this variable.
+
+We can work it out with the following.
+
+```{r}
+mean(my_data$Gaming)
+```
+
+We add this mean (12.62296) to our equation alongside the co-efficients for each of our predictors. With our dummy coding scheme, we can work out the adjusted mean of our Water group.
+
+Ability = Intercept + β1(Gaming) + β2(Double Espresso) + β3(Single Espresso)
+
+Ability = -3.4498 + 0.8538(12.62296) + (- 1.0085)(0) + (-0.4563)(0)
+
+Ability = -3.4498 + 10.777
+
+Ability = 7.33
+
+7.33 is the adjusted mean for the Water group, which is what we had from calling the `emmeans()` function following the ANCOVA. Have a go yourselves at working out the adjusted means of the other two Conditions using our dummy coding.
+
+## Improve this Workshop
+
+If you spot any issues/errors in this workshop, you can raise an issue or create a pull request for [this repo](https://github.com/ajstewartlang/12_glm_anova_pt2). 
