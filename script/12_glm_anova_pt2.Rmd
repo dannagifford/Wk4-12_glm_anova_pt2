@@ -1,0 +1,48 @@
+---
+title: "The General Linear Model - ANOVA Part 2"
+author: "Andrew Stewart, Email: drandrewjstewart@gmail.com, Twitter: @ajstewart_lang"
+date: ""
+output: 
+ html_document:
+  theme: flatly
+  toc: true
+  toc_float: true
+---
+
+# Overview
+
+In this workshop we will continue our examination of ANOVA. Specifically, we will focus on ANCOVA (Analysis of Covariance) before exploring how AN(C)OVA is a special case of regression and how both can be understood in the context of the General Linear Model.
+
+&nbsp;&nbsp;
+
+<center>
+
+<iframe width="560" height="315" src="https://youtube.com/embed/vw-BoLFHw2s" frameborder="0" allowfullscreen></iframe>
+
+</center>
+
+&nbsp;&nbsp;
+
+## Slides
+
+If you have a Google account, you can also view and download the slides in a range of formats by clicking on the image below. If you don't have a Google account, you can download the slides in .pdf format by [clicking here](../slides/glm_anova_pt2.pdf).
+
+&nbsp;&nbsp;
+
+<center>
+
+[![Link to slides](../images/glm_anova_pt2.png){width=75%}](https://docs.google.com/presentation/d/1liPFWXzm4GEOq-64wbp6kl2bFDFgOhjgRy_8BZdVnUQ/edit?usp=sharing)
+
+</center>
+
+&nbsp;&nbsp;
+
+# Building our ANCOVA
+
+Let's run through the ANCOVA example that I cover in the video above. First we need to load the packages we need. We'll be using the `tidyverse` for general data wrangling and data visualisation, and then the `afex` package for building our ANCOVA model, and the `emmeans` package for running pairwise comparisons and displaying our adjusted means.  
+
+```{r, warning=FALSE, message=FALSE}
+library(tidyverse) # Load the tidyverse packages
+library(afex) # ANOVA functions
+library(emmeans) # Needed for pairwise comparisons
+```

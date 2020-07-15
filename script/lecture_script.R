@@ -54,3 +54,19 @@ my_data <- my_data %>%
                                  levels = c("Water", "Double Espresso", "Single Espresso")))
 
 contrasts(my_data$Condition)
+
+model_lm <- lm(Ability ~ Condition, data = my_data)
+model_lm
+
+# ANCOVA example
+my_data <- read_csv("https://raw.githubusercontent.com/ajstewartlang/12_glm_anova_pt2/master/data/ancova_data.csv")
+
+my_data <- my_data %>% 
+  mutate(Condition = factor(Condition)) %>%
+  mutate(Condition = fct_relevel(Condition, 
+                                 levels = c("Water", "Double Espresso", "Single Espresso")))
+
+model_ancova <- lm(Ability ~ Gaming + Condition, data = my_data)
+model_ancova
+
+
