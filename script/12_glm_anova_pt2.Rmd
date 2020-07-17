@@ -219,6 +219,36 @@ Ability = 7.33
 
 7.33 is the adjusted mean for the Water group, which is what we had from calling the `emmeans()` function following the ANCOVA. Have a go yourselves at working out the adjusted means of the other two Conditions using our dummy coding.
 
+## Centering our Covariate
+
+In the video, I mention that we could also have scaled and centred our covariate. This standardises the variable (with the mean centred on zero) and removes the need to multiply the linear model coeffficient for the covariate by the covariate's mean. Generally, it makes interpretation of the coefficients in our linear model easier.
+
+We can use the `scale()` function to create a new (scaled and centred) version of our covariate in our data frame.
+
+```{r}
+my_scaled_data <- my_data %>%
+  mutate(centred_gaming = scale(Gaming))
+```
+
+We can look at both the uncentred and the centred covariate to see that nothing has changed in the data, other than the variable mean is now centred on zero and the distribution has been scaled.
+
+```{r}
+plot(density(my_scaled_data$Gaming))
+```
+
+```{r}
+plot(density(my_scaled_data$centred_gaming))
+```
+
+So let's build our linear model with the scaled and centred covariate.
+
+```{r}
+model_ancova_centred <- lm(Ability ~ centred_gaming + Condition, data = my_scaled_data)
+model_ancova_centred
+```
+
+We see that the Intercept now corresponds to the adjusted mean for the Water group. We can calculate the adjusted mean for the Double Espresso group by subtracting 1.0085 from 7.3280, and we can calculate the adjusted mean for the Single Espresso group by subtracting 0.4563 from 7.3280. Hopefully you see that scaling and centering the covariate makes it's a lot easier to then interpret the coefficients of our linear model.
+
 &nbsp;&nbsp;
 
 <center>
