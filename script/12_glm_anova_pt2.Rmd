@@ -25,7 +25,7 @@ In this workshop we will continue our examination of ANOVA. Specifically, we wil
 
 ## Slides
 
-You can download the slides in .pdf format by clicking on the image below. 
+You can download the slides in .odp format by clicking [here](../slides/glm_anova_pt2.odp) and in .pdf format by clicking on the image below. 
 
 &nbsp;&nbsp;
 
