@@ -17,7 +17,7 @@ In this workshop we will continue our examination of ANOVA. Specifically, we wil
 
 <center>
 
-<iframe width="560" height="315" src="https://youtube.com/embed/zGifY-McqsQ" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://youtube.com/embed/zGifY-McqsQ" frameborder="0" data-external="1" allowfullscreen></iframe>
 
 </center>
 
@@ -147,7 +147,7 @@ my_data %>%
 
 Let's check how our Condition factor is currently coded in terms of its contrasts. Note, the expression `my_data$Condition` is the Base R way of referring to the variable called `Condition` in the dataset `my_data`.
 
-## Setting up our Constrasts
+## Setting up our Contrasts
 
 ```{r}
 contrasts(my_data$Condition)
