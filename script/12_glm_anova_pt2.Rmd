@@ -157,8 +157,8 @@ We want our Water group to be the reference level (thus corresponding to the int
 
 ```{r}
 my_data <- my_data %>%
-  mutate(Condition = fct_relevel(Condition, 
-                                 levels = c("Water", "Double Espresso", "Single Espresso")))
+  mutate(Condition = fct_relevel(Condition,
+                                 c("Water", "Double Espresso", "Single Espresso")))
 
 contrasts(my_data$Condition)
 ```
