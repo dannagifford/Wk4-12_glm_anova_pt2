@@ -153,7 +153,7 @@ Let's check how our Condition factor is currently coded in terms of its contrast
 contrasts(my_data$Condition)
 ```
 
-We want our Water group to be the reference level (thus corresponding to the intercept of our linear model), and cdummy oded as (0, 0) but it's not currently coded as such. Let's fix that.
+We want our Water group to be the reference level (thus corresponding to the intercept of our linear model), and dummy coded as (0, 0) but it's not currently coded as such. Let's fix that.
 
 ```{r}
 my_data <- my_data %>%
@@ -182,7 +182,7 @@ Ability = 4.817 + 4.199
 
 Ability = 9.016
 
-To work out the mean Ability of our Double Espresso Group, we use the coding for the Double Espresso group (0, 1) with our equation: 
+To work out the mean Ability of our Single Espresso Group, we use the coding for the Single Espresso group (0, 1) with our equation: 
 
 Ability = 4.817 + 4.199(0) + 1.871(1)
 
