@@ -1,6 +1,8 @@
 ---
 title: "The General Linear Model - ANOVA Part 2"
-author: "Andrew Stewart, Email: drandrewjstewart@gmail.com, Twitter: @ajstewart_lang"
+author:
+    - Dr Danna Gifford, Unit coordinator (2023), danna.gifford@manchester.ac.uk
+    - Prof Andrew Stewart, Original author (2020-2022), drandrewjstewart@gmail.com
 date: ""
 output: 
  html_document:
@@ -40,7 +42,7 @@ You can download the slides in .odp format by clicking [here](../slides/glm_anov
 # Building our ANCOVA
 ## Loading our Packages
 
-Let's run through the ANCOVA example that I cover in the video above. First we need to load the packages we need. We'll be using the `tidyverse` for general data wrangling and data visualisation, and then the `afex` package for building our ANCOVA model, and the `emmeans` package for running pairwise comparisons and displaying our adjusted means.  
+Let's run through the ANCOVA example covered in the video above. First we need to load the packages we need. We'll be using the `tidyverse` for general data wrangling and data visualisation, and then the `afex` package for building our ANCOVA model, and the `emmeans` package for running pairwise comparisons and displaying our adjusted means.  
 
 ```{r, warning=FALSE, message=FALSE}
 library(tidyverse) # Load the tidyverse packages
@@ -221,7 +223,7 @@ Ability = 7.33
 
 ## Centering our Covariate
 
-In the video, I mention that we could also have scaled and centred our covariate. This standardises the variable (with the mean centred on zero) and removes the need to multiply the linear model coeffficient for the covariate by the covariate's mean. Generally, it makes interpretation of the coefficients in our linear model easier.
+The video mentions that we could also have scaled and centred our covariate. This standardises the variable (with the mean centred on zero) and removes the need to multiply the linear model coeffficient for the covariate by the covariate's mean. Generally, it makes interpretation of the coefficients in our linear model easier.
 
 We can use the `scale()` function to create a new (scaled and centred) version of our covariate in our data frame.
 
